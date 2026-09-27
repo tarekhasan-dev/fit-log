@@ -7,16 +7,21 @@ import Link from "next/link";
 
 import { Dumbbell } from "lucide-react";
 
+import { usePathname } from "next/navigation";
+
 
 
 export default function Navbar() {
 
 
-    const [planCount, setPlanCount] = useState(0);
+      const pathname = usePathname();
 
-    const [savedCount, setSavedCount] = useState(0);    
 
-    const [menuOpen, setMenuOpen] = useState(false);
+       const [planCount, setPlanCount] = useState(0);
+
+        const [savedCount, setSavedCount] = useState(0);    
+
+          const [menuOpen, setMenuOpen] = useState(false);
 
 
 
@@ -34,6 +39,9 @@ export default function Navbar() {
 
 
             setSavedCount(savedWorkouts.length);
+
+
+
         }
 
 
@@ -94,11 +102,11 @@ export default function Navbar() {
   {menuOpen && (
 
                   
-       <div className="mt-5 flex flex-col gap-4 border-t border-gray-800 pt-5 md:hidden">
+       <div className="mt-5 flex flex-col gap-2 overflow-x-auto border-t border-gray-800 pt-5 md:hidden">
                         
 
 
-                        <Link href="/" onClick={() => setMenuOpen(false)} className="text-white">
+                        <Link href="/" onClick={() => setMenuOpen(false)} className={ pathname === "/" ?  " font-bold text-[#92A9E1] px-1 py-0" : "text-white " }  >
                             
 
                             Workout
@@ -106,25 +114,30 @@ export default function Navbar() {
 
                         </Link>
 
-          <Link href="/my-plan" onClick={() => setMenuOpen(false)} className="text-white">
+
+
+                        
+                        <Link href="/my-plan"  onClick={() => setMenuOpen(false)} className={pathname === "/my-plan" ? "font-bold text-[#92A9E1]" : "text-white px-2 py-0"  }  >
                             
 
                             My Plan
 
                         </Link>
 
-                        <Link href="/my-plan" onClick={() => setMenuOpen(false)} className="text-lime-300">
+
+
+
+                       <Link href="/my-plan" className=" shrink-0 whitespace-nowrap self-start bg-red-500 text-white px-4 py-2 rounded-full font-semibold  text-sm ">
                             
 
-                    Plan {planCount}
+                           Plan {planCount}
                     
                         </Link>
                         
 
 
 
-                        <Link href="/my-plan" onClick={() => setMenuOpen(false)} className="text-lime-300">
-                            
+                            <Link href="/my-plan" className=" shrink-0 whitespace-nowrap self-start bg-red-500 text-white px-3 py-2 rounded-full font-semibold  text-sm " >
 
 
                             Saved {savedCount}
@@ -143,7 +156,7 @@ export default function Navbar() {
 
                      
 
-                    <Link href="/" className="inline-flex w-full items-center justify-center gap-2 text-3xl font-bold text-white md:w-auto md:justify-start">
+                    <Link href="/" className = "inline-flex w-full items-center  justify-center  gap-2 text-3xl  font-bold text-white md:w-auto md:justify-start ">
                         
                         <Dumbbell size={28} strokeWidth="2.5" className="text-red-500" />
                         
@@ -155,34 +168,40 @@ export default function Navbar() {
                
 
                     <div className="flex items-center gap-8">
+                        
 
 
-                        <Link href="/" className="text-white hover:text-lime-400 transition">
+                        <Link href="/" className= {pathname === "/" ? "font-bold   text-[#92A9E1]" :"text-white hover:text-lime-400   transition" } >
                             
                             Workout
-
-                        </Link>
-
-                        <Link href="/my-plan" className="text-white hover:text-lime-400 transition">
                             
-                            My Plan
-
                         </Link>
+                        
+                        
+                                 <Link href="/my-plan" className={pathname === "/my-plan" ?   "font-bold text-[#92A9E1]" :"text-white hover:text-lime-400  transition" }>
+                           
+                            My Plan
+        
+                        </Link>
+
+
 
                     </div>
+                    
 
-                 
-
+                
+                
+                
                     <div className="flex items-center gap-4">
 
-                        <Link href="/my-plan" className="bg-lime-300 text-black px-4 py-2 rounded-full font-semibold" >
+                        <Link href="/my-plan" className="bg-red-500 text-white text-1xl px-7 py-2 rounded-full font-semibold" >
                             
 
                             Plan {planCount}
 
                         </Link>
 
-                        <Link href="/my-plan" className="border border-lime-300 text-lime-300 px-4 py-2 rounded-full font-semibold" >
+                        <Link href="/my-plan" className="border border-white-300 text-white-300 px-4 py-2 rounded-full font-semibold" >
                             
 
                             Saved {savedCount}

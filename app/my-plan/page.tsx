@@ -5,6 +5,12 @@ import Link from "next/link";
 
 import { useEffect, useState } from "react";
 
+import { Check, Clock3, Flame, Star, X } from "lucide-react";
+
+
+
+import toast from "react-hot-toast";
+
 
 export default function MyPlanPage() {
     
@@ -20,23 +26,19 @@ export default function MyPlanPage() {
 
     const [activeTab, setActiveTab] = useState("plan");
 
-            
+    const [sortBy, setSortBy] = useState("duration");        
     
     const [planWorkouts, setPlanWorkouts] = useState<any[]>([]);
 
     const [savedWorkouts, setSavedWorkouts] = useState<any[]>([]);
 
-
-
-
-
+        const [loading, setLoading] = useState(true);
 
 
 
     useEffect(() => {
 
-
-
+        
         function updateMetrics() {
 
 
@@ -54,10 +56,7 @@ export default function MyPlanPage() {
             setExercises(workoutPlan.length);
 
 
-
-
-
-            const totalMinutes = workoutPlan.reduce(  (total: number, workout: any) => {   return total + Number(workout.duration);  },
+        const totalMinutes = workoutPlan.reduce(  (total: number, workout: any) => {   return total + Number(workout.duration);  },
 
                 0
 
@@ -65,6 +64,7 @@ export default function MyPlanPage() {
 
 
 
+  
             setMinutes(totalMinutes);
 
 
@@ -81,11 +81,9 @@ export default function MyPlanPage() {
 
 
 
-
-
-
-
-                         setCalories(totalCalories);
+            setCalories(totalCalories);
+           
+              setLoading(false);
 
         }
 
@@ -108,11 +106,7 @@ export default function MyPlanPage() {
 
     function handleRemove(id: number) {
 
-        const currentPlan = JSON.parse(
-
-            localStorage.getItem("workoutPlan") || "[]"
-
-        );
+        const currentPlan = JSON.parse(localStorage.getItem("workoutPlan") || "[]"  );
 
                     const updatedPlan = currentPlan.filter((workout: any) => workout.id !== id);
 
@@ -120,9 +114,14 @@ export default function MyPlanPage() {
 
         window.dispatchEvent(new Event("workoutUpdated"));
 
+        toast.success("Workout removed from today's plan");
+
     }
 
 
+ 
+ 
+ 
     function handleRemoveSaved(id: number) {
 
         const currentSaved = JSON.parse( localStorage.getItem("savedWorkouts") || "[]" );
@@ -135,9 +134,66 @@ export default function MyPlanPage() {
 
         window.dispatchEvent(new Event("workoutUpdated"));
 
-  }
+
+           toast.success("Workout removed from saved");
+
+    }
+    
 
 
+
+    function handleMarkAsDone(id: number) {
+
+        const currentPlan = JSON.parse(localStorage.getItem("workoutPlan") || "[]"); 
+        const updatedPlan = currentPlan.map((workout: any) => workout.id === id ? { ...workout, done: !workout.done } : workout); 
+        
+        localStorage.setItem("workoutPlan", JSON.stringify(updatedPlan)); 
+         
+        window.dispatchEvent(new Event("workoutUpdated"));
+
+    }
+
+
+
+  
+  
+    function sortWorkouts(workouts: any[]) {
+        
+         return[...workouts].sort((a, b) => {
+            
+            if (sortBy === "rating") {
+                
+
+                return Number(b.rating) - Number(a.rating);
+
+             }
+             
+
+             return Number(a.duration) - Number(b.duration);
+             
+
+         });
+        
+        
+    }
+
+    if (loading) {
+         
+        return (
+              
+            <main className="flex min-h-screen items-center justify-center bg-black text-white ">
+                
+                <p>Loading Workouts....</p>
+
+            </main>
+        );
+     }
+
+
+
+  
+  
+  
     return (
 
         <main className="min-h-screen bg-black text-white">
@@ -176,7 +232,7 @@ export default function MyPlanPage() {
 
 
 
-                    <div className=" border border-[#92A9E1] bg-[#92A9E1] text-[#292929] rounded-xl p-6 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_12px_35px_rgba(146,169,225,0.35)] cursor-pointer">
+                    <div className=" border border-[#92A9E1] bg-[#92A9E1] text-[#292929]  rounded-xl p-6 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_12px_35px_rgba(146,169,225,0.35)] cursor-pointer">
 
                         <p className="text-xl font-bold text-[#292929] uppercase">
 
@@ -204,9 +260,13 @@ export default function MyPlanPage() {
 
 
 
-                    <div className=" border border-[#92A9E1] bg-[#92A9E1] text-[#292929] rounded-xl p-6 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_12px_35px_rgba(146,169,225,0.35)] cursor-pointer">
+                    <div className=" border border-[#92A9E1] bg-[#92A9E1] text-[#292929] rounded-xl p-6 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_12px_35px_rgba(146,169,225,0.35)] cursor-pointer " >
+                        
 
                         <p className="text-xl font-bold text-[#292929] uppercase">
+
+
+
 
                             Minutes
 
@@ -215,6 +275,9 @@ export default function MyPlanPage() {
 
 
                         <h2 className="text-5xl font-black mt-3 text-[#292929]">
+
+
+                            
 
                             {minutes}
 
@@ -226,7 +289,7 @@ export default function MyPlanPage() {
                     </div>
 
 
-                    {/* Calories */}
+                    {/* calories */}
 
 
 
@@ -251,11 +314,16 @@ export default function MyPlanPage() {
                         
 
 
-                                     <p className="text-xl font-bold text-[#292929] uppercase">
+                    
+                    
+                        <p className="text-xl font-bold text-[#292929] uppercase">
 
                             Calories
 
                         </p>
+
+
+
 
                         <h2 className="text-5xl font-black mt-3 text-[#292929]">
 
@@ -263,8 +331,11 @@ export default function MyPlanPage() {
 
 
                             {calories}
+                            
 
                         </h2>
+
+                        
 
                     </div>
 
@@ -276,11 +347,13 @@ export default function MyPlanPage() {
 
                 <div className="mt-12 border-b border-gray-800">
 
-                    <div className="flex items-center gap-8">
+                    <div className="flex  flex-wrap items-center  justify-between gap-4">
+
+                        <div className="flex items-center gap-8">
 
 
                         
-                        <button onClick={() => setActiveTab("plan")} className={`pb-4 font-bold text-lg cursor-pointer transition-all duration-300 ${activeTab === "plan" ? "text-[#92A9E1] border-b-2 border-[#92A9E1]" : "text-gray-500 hover:text-white"}
+                        <button onClick={() => setActiveTab("plan")} className= {`pb-4 font-bold text-lg cursor-pointer transition-all duration-300 ${activeTab === "plan" ? "text-[#92A9E1] border-b-2 border-[#92A9E1]" : "text-gray-500 hover:text-white" }
                         
                         
                         `}  >
@@ -291,11 +364,34 @@ export default function MyPlanPage() {
 
 
 
-                        <button onClick={() => setActiveTab("saved")} className={`pb-4 font-bold text-lg cursor-pointer ${activeTab === "saved" ? "text-[#92A9E1] border-b-2 border-[#92A9E1]" : "text-gray-500 hover:text-white"}`}>
+                        <button onClick= {()  => setActiveTab("saved")} className={`pb-4 font-bold text-lg cursor-pointer ${activeTab === "saved" ? "text-[#92A9E1] border-b-2 border-[#92A9E1]" : "text-gray-500 hover:text-white"}` }>
 
                             Saved
 
-                        </button>
+                            </button>
+
+
+                            
+                        </div>
+                        
+
+                        <label className="mb-3 flex items-center gap-3 text-sm text-gray-400  ">
+
+                            
+                            Sort By 
+                       
+
+                        <select name="shortBy" id=""  onChange={(event) => setSortBy(event.target.value)} className="rounded-lg border border-gray-800 bg-[#171B24] px-3 py-2 text-white ">
+                            
+                                <option value="duration">Duration </option>
+                                
+
+                            <option value="rating">Rating </option>
+
+                            </select>
+                            
+                        </label>
+                        
 
                     </div>
 
@@ -310,11 +406,10 @@ export default function MyPlanPage() {
 
                                {activeTab === "plan" && (
 
-                                        planWorkouts.length === 0 ? (
+                                       planWorkouts.length === 0 ? (
                                             
 
-                            <div className="flex min-h-[360px] flex-col items-center justify-center rounded-2xl border border-dashed border-[#8CB9D2] bg-[#223344] px-6 py-8 text-center">
-                                
+                                            <div className= " flex min-h-[360px] flex-col items-center justify-center rounded-2xl border border-dashed border-[#8CB9D2] bg-[#223344] px-6 py-8 text-center " >
 
 
                                 <h2 className="text-xl font-bold  text-white">
@@ -332,16 +427,24 @@ export default function MyPlanPage() {
                                 <p className="mt-3 text-sm text-[#D5EFFE]">
                                     
                                     Great workouts deserve a place to come back to.
-                                    
+                                     
                                 </p>
 
-                                <a href="/workouts" className="mt-5 rounded-full border border-[#9FCFE5] bg-[#344B61] px-6 py-2 text-sm font-semibold text-white hover:bg-[#45627D]">
-                                    
 
+
+                                <Link href="/" className=" mt-5 rounded-full border border-[#9FCFE5] bg-[#344B61] px-6 py-2 text-sm font-semibold text-white hover:bg-[#45627D]" >
+                                
+                                
                                     Explore Workouts
                                     
+                                
+                                </Link>
+                                    
 
-                                </a>
+                                    
+                                    
+
+
                                 
 
                             </div>
@@ -354,45 +457,125 @@ export default function MyPlanPage() {
                                 
                             <div className="space-y-4">
 
-                                    {planWorkouts.map((workout: any) => (
-                                    
-                                        
-                                          <div key={workout.id} className=" flex items-center justify-between gap-4 rounded-xl border border-gray-800 bg-[#212842] p-4">
+                                    {sortWorkouts(planWorkouts).map((workout: any) => (
+                                       
+                                      
+                                         <div key={workout.id} className="flex flex-col gap-4 rounded-xl border border-gray-800 bg-[#212842] p-4 xl:flex-row xl:items-center xl:justify-between">
 
 
-                                            <div>
+
+                                             <img src={workout.image} alt= {workout.name} className="h-44 w-full rounded-lg object-cover  xl:h-24   xl:w-28   xl:shrink-0 " />
+
+
+
+
+
+
+
+                                    <div className="min-w-0 w-full xl:flex-1">
                                                 
-
-
-
-                                            <h2 className="font-bold">
+                                                
+                                             <h2 className="font-bold">
 
                                                 {workout.name}
 
                                             </h2>
 
+
+
                                             <p className="mt-1 text-sm text-gray-300">
+
+                                                {workout.equipment}
+
+                                                </p>
+                                                
+
+                                                <div className="mt-3 flex flex-wrap gap-4 text-sm text-gray-300" >
+
+                                                    <span className="inline-flex items-center gap-1 " >  <Clock3 size={16} />
+                                                    
+                                                        {workout.duration} min 
+
+                                                    </span>
+
+
+
+                                                    <span className="inline-flex items-center gap-1 "> <Flame size={16} />
+                                                    
+                                                        {workout.caloriesBurned} kcal
+                                                    
+                                                    </span>
+
+
+
+                                                    <span className="inline-flex items-center gap-1 "> <Star size={16} />
+                                                    
+                                                        {workout.rating} rating
+                                                    
+                                                    </span>
+
+
+                                                    
+                                                </div>
+                                                
+
+                                            {/* <p className="mt-3 text-sm text-gray-300">
 
                                                 {workout.duration} min ·{workout.caloriesBurned} kcal
 
-                                            </p>
+                                                </p> */}
+
 
                                             </div>
                                             
+                                            <div className="flex w-full flex-wrap items-center gap-2 xl:w-auto">
 
 
 
+                                                
+                                                <Link href={`/workout/${workout.id}`} className=" inline-flex  h-10 items-center justify-center rounded-full bg-[#223344] px-5 text-sm font-semibold text-white transition-colors  hover:bg-[#35617A] border border-dot border-[#8CB9D2] ">
+                                                    
+                                                    View Details 
 
-                                        <button type="button" onClick={() => handleRemove(workout.id)} aria-label={`Remove ${workout.name}`} className="shrink-0 rounded-lg border border-gray-400 px-3 py-1 font-bold hover:bg-white/10">
 
-                                            ✕
+
+                                                    
+                                                </Link>
+
+
+                                                <button type="button" onClick={() => handleMarkAsDone(workout.id)} aria-pressed={Boolean(workout.done)}
+                                                    
+
+
+                                                    
+                                                              className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#D5DCE0] px-5 text-sm font-bold text-black ">
+                                                    
+                                                                  <Check size={16} /> 
+
+                                                              {workout.done ? "Done" : "Mark as Done"}
+
+                                                    
+                                                
+                                                </button>
+
+                                           
+                                                
+
+                                            <button type="button" onClick={() => handleRemove(workout.id)} aria-label={`Remove ${workout.name}`} className=" flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#223344]  text-white transition-colors hover:bg-[#35617A] border border-none border-[#8CB9D2] ">
+
+
+                                                      
+                                                
+                                                <X size={18} />
+                                                
+
+                                                
 
                                             </button>
+
+                                           
+                                               </div>
                                             
-
-
-
-
 
                                         </div>
                                         
@@ -406,6 +589,7 @@ export default function MyPlanPage() {
                         )
 
                     )}
+            
 
 
                     {activeTab === "saved" && (
@@ -440,11 +624,14 @@ export default function MyPlanPage() {
 
                                 </p>
 
-                                <a href="/workouts" className="mt-5 rounded-full border border-[#9FCFE5] bg-[#344B61] px-6 py-2 text-sm font-semibold text-white hover:bg-[#45627D]">
+                            <Link href="/" className="mt-5 rounded-full border   border-[#9FCFE5] bg-[#344B61] px-6 py-2 text-sm font-semibold text-white hover:bg-[#45627D]"  > 
+                                
+                                                
+                                        Explore Workouts
+                                
+                            
+                                </Link>
 
-                                    Explore Workouts
-
-                                </a>
 
                             </div>
 
@@ -452,61 +639,117 @@ export default function MyPlanPage() {
 
                                 <div className="space-y-4">
                                     
-
-
-
-
-
-                                    {savedWorkouts.map((workout: any) => (
+                          {sortWorkouts(savedWorkouts).map((workout: any) => (
                                     
 
-                                        <div key={workout.id} className="flex items-center justify-between gap-4 rounded-xl border border-gray-800 bg-[#212842] p-4">
+                                      <div key= {workout.id}  className =" flex flex-col gap-4 rounded-xl border  border-gray-800 bg-[#212842] p-4 xl:flex-row xl:items-center ">
+                                  
+
+                                  <img src={workout.image}  alt={workout.name}  className=" h-44 w-full rounded-lg object-cover xl:h-24 xl:w-28 xl:shrink-0 " />
+
                                             
 
 
-                                            <div>
+                                            <div className="min-w-0 w-full xl:flex-1 ">
                                                 
 
                                                 <h2 className="font-bold">
                                                     
 
-                                                {workout.name}\
+                                                {workout.name}
 
                                             </h2>
 
                                             <p className="mt-1 text-sm text-gray-300">
 
-                                                {workout.duration}min . {workout.caloriesBurned} kcal
+                                                {workout.equipment}
 
-                                            </p>
-
-                                        </div>
-
-                                            <button type="button" onClick={() => handleRemoveSaved(workout.id)} className="shrink-0 rounded-lg border border-gray-400 px-3 py-1 font-bold hover:bg-white/10">
-                                                
+                                      </p>
 
 
+                                      {/* clock  */}
 
-                                            ✕
+                                      <div className="mt-3 flex flex-wrap gap-4 text-sm text-gray-300 ">
+                                          
+                                          <span className="inline-flex items-center gap-1 ">
+                                              
+                                              <Clock3 size={16} />
+                                              {workout.duration} min 
+                                              
+                                          </span>
 
-                                        </button>
+                                          {/* flame  */}
 
-                                    </div>
 
-                                ))}
+                                          <span className="inline-flex items-center gap-1 ">
+                                              
+                                              <Flame size={16} />
+                                              {workout.caloriesBurned} kcal 
+                                              
+                                              
+                                          </span>
 
-                            </div>
+                                          {/* rating  */}
+                                          
+                                          <span className="inline-flex items-center gap-1 ">
+                                              
+                                              <Star size={16} />
+                                              {workout.rating}  
+                                              
+                                              
+                                          </span>
+
+                                      </div>
+
+                                  </div>
+
+                                  <div className="flex w-full flex-wrap items-center gap-2 xl:w-auto ">
+
+                                       <Link href={`/workout/${workout.id}` } className= " inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[#8CB9D2] bg-[#223344] px-3 text-sm font-semibold text-white hover:bg-[#35617A] sm:px-5">
+                                      
+                                          
+                                          View Details 
+                                      
+                                      </Link>
+                                      
+                                  
+                                  <button type="button" onClick={() => handleRemoveSaved(workout.id)}  aria-label={`Remove Saved ${workout.name }`} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#223344] text-white hover:bg-[#35617A]">
+
+                                      ✕
+                                      
+
+                                  </button>
+                                  
+                                      
+                                      </div>
+
+
+                              </div>
+                              
+
+
+                          ))}
+                                    
+
+                                </div>
+
+                                
 
                         )
 
-                    )}
 
+                    )}
+                    
                 </div>
+
 
             </section>
 
+
         </main>
 
+
     );
+
 
 }

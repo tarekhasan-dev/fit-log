@@ -80,12 +80,12 @@ export default function WorkoutCard({ workout }: any) {
 
             {/* workout start  */}
 
-            <div className="workout-stats   mx-5 mb-8   mt-2 flex  flex-wrap  items-center  gap-5 border-t border-gray-800  pt-4 text-sm  text-gray-300">
+            <div className=" workout-stats   mx-5 mb-8   mt-2 flex  flex-wrap  items-center  gap-5 border-t border-gray-800   pt-4 text-sm text-gray-300 text-[#C2F800] ">
                 
                     {/* clock style add  */}
                     
 
-                    <span className="inline-flex  item-center gap-1 ">
+                    <span className="inline-flex  items-center gap-1 ">
 
                         <Clock3 size={20} />
                     
@@ -95,7 +95,7 @@ export default function WorkoutCard({ workout }: any) {
                     {/* calories style add  */}
 
                                       
-                    <span className="inline-flex  item-center gap-1 ">
+                    <span className="inline-flex  items-center gap-1 ">
 
                         <Flame size={20}/>
                     
@@ -105,7 +105,7 @@ export default function WorkoutCard({ workout }: any) {
                     {/* rating style add  */}
                     
 
-                    <span className="inline-flex item-center gap-1 ">
+                    <span className="inline-flex items-center gap-1 ">
 
                         <Star size={20} />
                         
