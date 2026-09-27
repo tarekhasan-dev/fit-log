@@ -14,7 +14,7 @@ export default function Library() {
     return (
 
 
-        <section className="library-parent">
+        <section id="library" className="library-parent">
         
             <div className="container">
 
@@ -38,14 +38,7 @@ export default function Library() {
 
                     </div>
 
-                    <div className=" library-card-container">
-
-                        <WorkoutSection />
-
-                    </div>
-
-                
-
+                  
 
                 {/* Workout card start  */}
 
