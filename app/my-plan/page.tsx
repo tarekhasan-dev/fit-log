@@ -175,7 +175,7 @@ export default function MyPlanPage() {
              if (sortBy === "calories")
                  
              {
-                 return Number(a.coloriesBurned) - Number(b.caloriesBurned); 
+                 return Number(a.caloriesBurned) - Number(b.caloriesBurned); 
 
              }
              
@@ -399,7 +399,7 @@ export default function MyPlanPage() {
                                 <option value="duration">Duration </option>
                                 
 
-                                <option value="Calories"> Calories </option>
+                                <option value="calories">Calories</option>
                                 
                             <option value="rating">Rating </option>
 
