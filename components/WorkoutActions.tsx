@@ -146,7 +146,7 @@ export default function WorkoutActions({
 
                     flex items-center justify-center gap-2
 
-                    bg-[#D9FF00] text-black font-semibold
+                    bg-[#DCE6E6] text-black font-semibold
 
                     px-7 py-3 rounded-xl
 

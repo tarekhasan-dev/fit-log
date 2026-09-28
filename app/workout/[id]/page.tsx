@@ -1,4 +1,6 @@
 
+import { notFound } from "next/navigation";
+
 import WorkoutActions from "../../../components/WorkoutActions";
 
 
@@ -38,19 +40,21 @@ export default async function WorkoutDetailsPage({
     
     if (!workout) {
             
-        return (
+        // return (
 
-         <main className="min-h-screen bg-black text-white flex items-center justify-center">
+        //  <main className="min-h-screen bg-black text-white flex items-center justify-center">
             
-                <h1 className="text-3xl font-bold">
+        //         <h1 className="text-3xl font-bold">
 
-                    Workout not found
+        //             Workout not found
 
-                </h1>
+        //         </h1>
 
-            </main>
+        //     </main>
 
-        );
+        // );
+
+        notFound()
 
     }
 
@@ -392,7 +396,7 @@ export default async function WorkoutDetailsPage({
                                         >
 
 
-                                            <div className="bg-[#D9FF00] text-black min-w-8 h-8 rounded-full flex items-center justify-center font-bold">
+                                            <div className="bg-[#DCE6E6] text-black min-w-8 h-8 rounded-full flex items-center justify-center font-bold">
 
                                                 {index + 1}
 

@@ -1,3 +1,8 @@
+
+import { ArrowDown } from "lucide-react";
+
+
+
 export default function Hero() {
 
   return (
@@ -22,17 +27,17 @@ export default function Hero() {
 
           <h1 className="mt-4 text-4xl font-black uppercase leading-tight text-white sm:text-5xl lg:text-5xl">
 
-            SHOW UP. LIFT <span className="text-red-500">STRONG</span>. <br />
+            TRAIN WITH  <span className="text-red-500">INTENT</span>. <br />
             
-            LOG THE PROGRESS.
+            LOG EVERY SET.
             
           </h1>
 
 
-          <p className="mt-5 max-w-lg leading-7 text-gray-300 ">
+          <p className="mt-4 max-w-lg leading-7 text-gray-300 ">
 
-            Your goals deserve more than guesswork. Choose a workout, make a plan,
-            and take the next step toward stronger days.
+              Your goals deserve more than guesswork. Choose a workout, make a plan,
+              and take the next step toward stronger days.
           
           </p>
 
@@ -42,10 +47,12 @@ export default function Hero() {
 
               {/* button section  */}
 
-          <a href="#library" className="mt-7 inline-flex rounded-lg bg-[#C2F800] px-6 py-3 font-bold text-black transition hover:bg-[#B8E4FA]">
+          <a href="#library" className=" mx-auto w-fit items-center mt-7 flex rounded-lg bg-[#C2F800] px-6 py-3 font-bold text-black transition hover:bg-[#B8E4FA] gap-2 md:mx-0 ">
 
 
             BROWSE WORKOUTS
+
+            <ArrowDown size={18} className=" relative top-0"/  >
 
 
           </a>

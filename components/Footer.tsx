@@ -16,7 +16,7 @@ export default function Footer() {
                 <Link rel="" href="/"  className="inline-flex item-center  gap-2 font-bold">
                 
 
-                <Dumbbell size={18} className="text-[#D9FF00]" />
+                <Dumbbell size={18} className="text-red-500" />
 
                 FITLOG
                 

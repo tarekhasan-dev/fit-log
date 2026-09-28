@@ -145,11 +145,14 @@ export default function MyPlanPage() {
     function handleMarkAsDone(id: number) {
 
         const currentPlan = JSON.parse(localStorage.getItem("workoutPlan") || "[]"); 
+
         const updatedPlan = currentPlan.map((workout: any) => workout.id === id ? { ...workout, done: !workout.done } : workout); 
         
         localStorage.setItem("workoutPlan", JSON.stringify(updatedPlan)); 
          
         window.dispatchEvent(new Event("workoutUpdated"));
+
+        toast.success("Workout Status update");  
 
     }
 
@@ -167,6 +170,16 @@ export default function MyPlanPage() {
                 return Number(b.rating) - Number(a.rating);
 
              }
+
+
+             if (sortBy === "calories")
+                 
+             {
+                 return Number(a.coloriesBurned) - Number(b.caloriesBurned); 
+
+             }
+             
+
              
 
              return Number(a.duration) - Number(b.duration);
@@ -386,6 +399,8 @@ export default function MyPlanPage() {
                                 <option value="duration">Duration </option>
                                 
 
+                                <option value="Calories"> Calories </option>
+                                
                             <option value="rating">Rating </option>
 
                             </select>
@@ -533,7 +548,7 @@ export default function MyPlanPage() {
 
 
                                                 
-                                                <Link href={`/workout/${workout.id}`} className=" inline-flex  h-10 items-center justify-center rounded-full bg-[#223344] px-5 text-sm font-semibold text-white transition-colors  hover:bg-[#35617A] border border-dot border-[#8CB9D2] ">
+                                                <Link href={`/workout/${workout.id}`} className=" inline-flex  h-10 shrink-0 items-center justify-center rounded-full bg-[#223344] px-3 text-sm font-semibold text-white transition-colors  hover:bg-[#35617A] border border-dotted border-[#8CB9D2] sm:px-5 whitespace-nowrap ">
                                                     
                                                     View Details 
 
@@ -605,7 +620,7 @@ export default function MyPlanPage() {
 
                                 <h2 className="text-xl font-bold text-white">
 
-                                    Nothing Here Yet
+                                     NOTHING HERE YET
 
                                 </h2>
 
@@ -617,7 +632,7 @@ export default function MyPlanPage() {
 
                                 <p className="mt-3 text-sm text-[#D5EFFE]">
 
-                                    Great workouts deserve a place to come back to.
+                                     Browse the library and add a lift to get today moving.
 
 
 
@@ -627,7 +642,7 @@ export default function MyPlanPage() {
                             <Link href="/" className="mt-5 rounded-full border   border-[#9FCFE5] bg-[#344B61] px-6 py-2 text-sm font-semibold text-white hover:bg-[#45627D]"  > 
                                 
                                                 
-                                        Explore Workouts
+                                       Go to workouts
                                 
                             
                                 </Link>

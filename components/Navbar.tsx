@@ -73,7 +73,9 @@ export default function Navbar() {
 
 
 
-                    <Link href="/" className="text-3xl font-bold text-white">
+                    <Link href="/" className=" inline-flex items-center gap-2 font-bold ">
+                        
+                        <Dumbbell size={18} className="text-red-500"/>
                         
                         FITLOG
 
@@ -117,7 +119,7 @@ export default function Navbar() {
 
 
                         
-                        <Link href="/my-plan"  onClick={() => setMenuOpen(false)} className={pathname === "/my-plan" ? "font-bold text-[#92A9E1]" : "text-white px-2 py-0"  }  >
+                        <Link href="/my-plan" className=" self-start border border-white-300 test-white-300   px-4 py-2 rounded-full font-semibold  ">
                             
 
                             My Plan
@@ -127,7 +129,7 @@ export default function Navbar() {
 
 
 
-                       <Link href="/my-plan" className=" shrink-0 whitespace-nowrap self-start bg-red-500 text-white px-4 py-2 rounded-full font-semibold  text-sm ">
+                       <Link href="/my-plan" className=" self-start bg-red-500 text-white px-6 py-2 rounded-full font-semibold text-1xl  ">
                             
 
                            Plan {planCount}
@@ -137,7 +139,7 @@ export default function Navbar() {
 
 
 
-                            <Link href="/my-plan" className=" shrink-0 whitespace-nowrap self-start bg-red-500 text-white px-3 py-2 rounded-full font-semibold  text-sm " >
+                            <Link href="/my-plan" className=" self-start border border-white-300 test-white-300   px-4 py-2 rounded-full font-semibold " >
 
 
                             Saved {savedCount}

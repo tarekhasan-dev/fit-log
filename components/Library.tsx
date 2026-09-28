@@ -26,13 +26,13 @@ export default function Library() {
 
                     <p className=" text-3xl font-black uppercase leading-tight text-white sm:text-3xl">
 
-                       THE LIFT <span>LAB </span> 
+                        THE LIBRARY
 
                     </p>
 
                     <p className="mt-2 max-w-2xl text-sm font-normal normal-case leading-6 text-gray-400 sm:text-base">
 
-                        Every muscle has a mission. Pick a lift and get to work.
+                          Every muscle has a mission. Pick a lift and get to work.
 
                     </p>
 
